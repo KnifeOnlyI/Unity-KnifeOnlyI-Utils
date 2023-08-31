@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Prefabs.RotatingCube
+namespace Tests.Scripts.Prefabs.RotatingCube
 {
     public class RotatingCube : MonoBehaviour
     {

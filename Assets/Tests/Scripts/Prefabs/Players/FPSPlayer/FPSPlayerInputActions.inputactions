@@ -1,0 +1,65 @@
+{
+    "name": "FPSPlayerInputActions",
+    "maps": [
+        {
+            "name": "Movements",
+            "id": "85d2537b-98b7-43c9-9ab3-1ade41c7b542",
+            "actions": [
+                {
+                    "name": "LookHorizontal",
+                    "type": "PassThrough",
+                    "id": "d201d87f-5025-4e9d-a0b2-1489f72b895f",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "LookVertical",
+                    "type": "PassThrough",
+                    "id": "e51da1d4-2c51-4c26-b077-a25d8bb4d390",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "04fcb6ae-f728-486f-b34a-5fdbaf00e542",
+                    "path": "<Mouse>/delta/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Mouse & Keyboard",
+                    "action": "LookHorizontal",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ba3c7c3d-823b-46c9-9506-8da4edc87178",
+                    "path": "<Mouse>/delta/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Mouse & Keyboard",
+                    "action": "LookVertical",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": [
+        {
+            "name": "Mouse & Keyboard",
+            "bindingGroup": "Mouse & Keyboard",
+            "devices": []
+        },
+        {
+            "name": "Controller",
+            "bindingGroup": "Controller",
+            "devices": []
+        }
+    ]
+}
