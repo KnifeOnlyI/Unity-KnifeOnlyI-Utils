@@ -44,6 +44,15 @@ public partial class @FPSPlayerInputActions : IInputActionCollection2, IDisposab
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""HorizontalMovement"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""572bfd06-5c11-4d31-b2ac-9435c70e66f4"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -68,6 +77,61 @@ public partial class @FPSPlayerInputActions : IInputActionCollection2, IDisposab
                     ""action"": ""LookVertical"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""WASD"",
+                    ""id"": ""9627d4d8-84f9-4220-92fe-390349bc6f39"",
+                    ""path"": ""2DVector"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""HorizontalMovement"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""up"",
+                    ""id"": ""592e058e-328f-450c-8fc1-2902a570c8cf"",
+                    ""path"": ""<Keyboard>/w"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Mouse & Keyboard"",
+                    ""action"": ""HorizontalMovement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""down"",
+                    ""id"": ""14a76e0f-03c1-4887-8faf-d023bf81b6e9"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Mouse & Keyboard"",
+                    ""action"": ""HorizontalMovement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""left"",
+                    ""id"": ""781f3f4b-e26c-4558-8204-21e64c68a7f4"",
+                    ""path"": ""<Keyboard>/a"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Mouse & Keyboard"",
+                    ""action"": ""HorizontalMovement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""right"",
+                    ""id"": ""e9f7c471-d8db-4b49-b2ab-1d59b61d3e58"",
+                    ""path"": ""<Keyboard>/d"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Mouse & Keyboard"",
+                    ""action"": ""HorizontalMovement"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
                 }
             ]
         }
@@ -89,6 +153,7 @@ public partial class @FPSPlayerInputActions : IInputActionCollection2, IDisposab
         m_Movements = asset.FindActionMap("Movements", throwIfNotFound: true);
         m_Movements_LookHorizontal = m_Movements.FindAction("LookHorizontal", throwIfNotFound: true);
         m_Movements_LookVertical = m_Movements.FindAction("LookVertical", throwIfNotFound: true);
+        m_Movements_HorizontalMovement = m_Movements.FindAction("HorizontalMovement", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -150,12 +215,14 @@ public partial class @FPSPlayerInputActions : IInputActionCollection2, IDisposab
     private IMovementsActions m_MovementsActionsCallbackInterface;
     private readonly InputAction m_Movements_LookHorizontal;
     private readonly InputAction m_Movements_LookVertical;
+    private readonly InputAction m_Movements_HorizontalMovement;
     public struct MovementsActions
     {
         private @FPSPlayerInputActions m_Wrapper;
         public MovementsActions(@FPSPlayerInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @LookHorizontal => m_Wrapper.m_Movements_LookHorizontal;
         public InputAction @LookVertical => m_Wrapper.m_Movements_LookVertical;
+        public InputAction @HorizontalMovement => m_Wrapper.m_Movements_HorizontalMovement;
         public InputActionMap Get() { return m_Wrapper.m_Movements; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -171,6 +238,9 @@ public partial class @FPSPlayerInputActions : IInputActionCollection2, IDisposab
                 @LookVertical.started -= m_Wrapper.m_MovementsActionsCallbackInterface.OnLookVertical;
                 @LookVertical.performed -= m_Wrapper.m_MovementsActionsCallbackInterface.OnLookVertical;
                 @LookVertical.canceled -= m_Wrapper.m_MovementsActionsCallbackInterface.OnLookVertical;
+                @HorizontalMovement.started -= m_Wrapper.m_MovementsActionsCallbackInterface.OnHorizontalMovement;
+                @HorizontalMovement.performed -= m_Wrapper.m_MovementsActionsCallbackInterface.OnHorizontalMovement;
+                @HorizontalMovement.canceled -= m_Wrapper.m_MovementsActionsCallbackInterface.OnHorizontalMovement;
             }
             m_Wrapper.m_MovementsActionsCallbackInterface = instance;
             if (instance != null)
@@ -181,6 +251,9 @@ public partial class @FPSPlayerInputActions : IInputActionCollection2, IDisposab
                 @LookVertical.started += instance.OnLookVertical;
                 @LookVertical.performed += instance.OnLookVertical;
                 @LookVertical.canceled += instance.OnLookVertical;
+                @HorizontalMovement.started += instance.OnHorizontalMovement;
+                @HorizontalMovement.performed += instance.OnHorizontalMovement;
+                @HorizontalMovement.canceled += instance.OnHorizontalMovement;
             }
         }
     }
@@ -207,5 +280,6 @@ public partial class @FPSPlayerInputActions : IInputActionCollection2, IDisposab
     {
         void OnLookHorizontal(InputAction.CallbackContext context);
         void OnLookVertical(InputAction.CallbackContext context);
+        void OnHorizontalMovement(InputAction.CallbackContext context);
     }
 }

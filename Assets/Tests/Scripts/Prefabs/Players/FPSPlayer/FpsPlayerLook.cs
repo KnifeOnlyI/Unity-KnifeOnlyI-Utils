@@ -44,11 +44,6 @@ namespace Tests.Scripts.Prefabs.Players.FPSPlayer
         private float defaultSensitivity = 10.0f;
 
         /// <summary>
-        /// The transform
-        /// </summary>
-        private Transform _transform;
-
-        /// <summary>
         /// The transform of eyes camera
         /// </summary>
         private Transform _eyesTransform;
@@ -75,7 +70,6 @@ namespace Tests.Scripts.Prefabs.Players.FPSPlayer
 
         private void Awake()
         {
-            _transform = transform;
             _eyesTransform = eyes.transform;
 
             SetSensitivity(defaultSensitivity);
@@ -101,7 +95,7 @@ namespace Tests.Scripts.Prefabs.Players.FPSPlayer
         {
             Cursor.lockState = CursorLockMode.Locked;
             Cursor.visible = false;
-            
+
             _inputActions.Movements.Enable();
         }
 
@@ -112,7 +106,7 @@ namespace Tests.Scripts.Prefabs.Players.FPSPlayer
         {
             Cursor.lockState = CursorLockMode.None;
             Cursor.visible = true;
-            
+
             _inputActions.Movements.Disable();
         }
 
@@ -151,7 +145,7 @@ namespace Tests.Scripts.Prefabs.Players.FPSPlayer
 
             _xRotation = Mathf.Clamp(_xRotation, -90, 90);
 
-            var targetRotation = _transform.eulerAngles;
+            var targetRotation = _eyesTransform.eulerAngles;
             targetRotation.x = _xRotation;
 
             _eyesTransform.eulerAngles = targetRotation;
