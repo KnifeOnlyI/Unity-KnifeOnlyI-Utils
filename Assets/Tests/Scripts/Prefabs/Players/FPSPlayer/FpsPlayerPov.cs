@@ -9,21 +9,14 @@ namespace Tests.Scripts.Prefabs.Players.FPSPlayer
     public class FpsPlayerPov : MonoBehaviour
     {
         /// <summary>
-        /// The minimum FOV value
-        /// </summary>
-        private const float MinFov = 1.0f;
-
-        /// <summary>
-        /// The maximum FOV value
-        /// </summary>
-        private const float MaxFov = 360.0f;
-
-        /// <summary>
         /// The default FOV value
         /// </summary>
         [SerializeField]
-        [Range(MinFov, MaxFov)]
-        private float defaultFov = 90;
+        [Range(FpsPlayerConstants.Fov.Min, FpsPlayerConstants.Fov.Max)]
+        private float defaultFov = FpsPlayerConstants.Fov.Default;
+
+        [field: SerializeField]
+        public bool Editable { get; set; } = true;
 
         /// <summary>
         /// The camera that can be used as player eyes
@@ -34,6 +27,10 @@ namespace Tests.Scripts.Prefabs.Players.FPSPlayer
         private void Start()
         {
             SetFov(defaultFov);
+
+            var inputActions = new FPSPlayerInputActions();
+
+            inputActions.Enable();
         }
 
         /// <summary>
@@ -51,7 +48,9 @@ namespace Tests.Scripts.Prefabs.Players.FPSPlayer
         /// <param name="value">The new FOV value</param>
         public void SetFov(float value)
         {
-            eyes.fieldOfView = Math.Clamp(value, MinFov, MaxFov);
+            if (!Editable) return;
+
+            eyes.fieldOfView = Math.Clamp(value, FpsPlayerConstants.Fov.Min, FpsPlayerConstants.Fov.Max);
         }
     }
 }

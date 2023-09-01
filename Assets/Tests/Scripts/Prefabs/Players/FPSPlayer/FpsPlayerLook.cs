@@ -79,35 +79,29 @@ namespace Tests.Scripts.Prefabs.Players.FPSPlayer
             _inputActions.Movements.LookHorizontal.performed += OnLookHorizontalPerformed;
             _inputActions.Movements.LookVertical.performed += OnLookVerticalPerformed;
 
-            Enable();
+            _inputActions.Enable();
+        }
+
+        private void OnEnable()
+        {
+            Cursor.lockState = CursorLockMode.Locked;
+            Cursor.visible = false;
+
+            _inputActions.Enable();
+        }
+
+        private void OnDisable()
+        {
+            Cursor.lockState = CursorLockMode.Confined;
+            Cursor.visible = true;
+
+            _inputActions.Disable();
         }
 
         private void Update()
         {
             ApplyHorizontalRotation();
             ApplyVerticalRotation();
-        }
-
-        /// <summary>
-        /// Enable the player ability to look
-        /// </summary>
-        public void Enable()
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-            Cursor.visible = false;
-
-            _inputActions.Movements.Enable();
-        }
-
-        /// <summary>
-        /// Disable the player ability to look
-        /// </summary>
-        public void Disable()
-        {
-            Cursor.lockState = CursorLockMode.None;
-            Cursor.visible = true;
-
-            _inputActions.Movements.Disable();
         }
 
         /// <summary>
@@ -134,6 +128,11 @@ namespace Tests.Scripts.Prefabs.Players.FPSPlayer
         private void ApplyHorizontalRotation()
         {
             root.Rotate(Vector3.up, _mouseInput.x * Time.deltaTime);
+        }
+
+        public void ApplyRotation()
+        {
+            root.Rotate(Vector3.up, 30);
         }
 
         /// <summary>

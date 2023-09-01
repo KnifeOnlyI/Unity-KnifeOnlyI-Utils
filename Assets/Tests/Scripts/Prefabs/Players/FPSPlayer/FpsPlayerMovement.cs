@@ -3,6 +3,9 @@ using UnityEngine.InputSystem;
 
 namespace Tests.Scripts.Prefabs.Players.FPSPlayer
 {
+    /// <summary>
+    /// The component to manage FPS player movements
+    /// </summary>
     public class FpsPlayerMovement : MonoBehaviour
     {
         [SerializeField]
@@ -12,7 +15,7 @@ namespace Tests.Scripts.Prefabs.Players.FPSPlayer
         private float defaultSpeed = 1.0f;
 
         [SerializeField]
-        private float gravity = -30f; // -9.81
+        private float gravity = 9.81f; // -9.81
 
         /// <summary>
         /// The input actions
@@ -63,7 +66,7 @@ namespace Tests.Scripts.Prefabs.Players.FPSPlayer
             var horizontalVelocity =
                 (transform.right * _horizontalInput.x + _transform.forward * _horizontalInput.y) * _speed;
 
-            _verticalVelocity.y += gravity * Time.deltaTime;
+            _verticalVelocity.y += gravity * (3.058f / 2) * Time.deltaTime;
 
             characterController.Move(horizontalVelocity * Time.deltaTime);
             characterController.Move(_verticalVelocity * Time.deltaTime);

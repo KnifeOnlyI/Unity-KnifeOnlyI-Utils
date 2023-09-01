@@ -134,6 +134,34 @@ public partial class @FPSPlayerInputActions : IInputActionCollection2, IDisposab
                     ""isPartOfComposite"": true
                 }
             ]
+        },
+        {
+            ""name"": ""Actions"",
+            ""id"": ""8242b612-94bb-48d3-b0dc-018319a40c5f"",
+            ""actions"": [
+                {
+                    ""name"": ""Interact"",
+                    ""type"": ""Button"",
+                    ""id"": ""24486094-73f4-4c12-90f2-ca977f994f2c"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""7120b4b9-d85f-49b0-aeec-77bd921e2cba"",
+                    ""path"": ""<Keyboard>/e"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Mouse & Keyboard"",
+                    ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -154,6 +182,9 @@ public partial class @FPSPlayerInputActions : IInputActionCollection2, IDisposab
         m_Movements_LookHorizontal = m_Movements.FindAction("LookHorizontal", throwIfNotFound: true);
         m_Movements_LookVertical = m_Movements.FindAction("LookVertical", throwIfNotFound: true);
         m_Movements_HorizontalMovement = m_Movements.FindAction("HorizontalMovement", throwIfNotFound: true);
+        // Actions
+        m_Actions = asset.FindActionMap("Actions", throwIfNotFound: true);
+        m_Actions_Interact = m_Actions.FindAction("Interact", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -258,6 +289,39 @@ public partial class @FPSPlayerInputActions : IInputActionCollection2, IDisposab
         }
     }
     public MovementsActions @Movements => new MovementsActions(this);
+
+    // Actions
+    private readonly InputActionMap m_Actions;
+    private IActionsActions m_ActionsActionsCallbackInterface;
+    private readonly InputAction m_Actions_Interact;
+    public struct ActionsActions
+    {
+        private @FPSPlayerInputActions m_Wrapper;
+        public ActionsActions(@FPSPlayerInputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Interact => m_Wrapper.m_Actions_Interact;
+        public InputActionMap Get() { return m_Wrapper.m_Actions; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(ActionsActions set) { return set.Get(); }
+        public void SetCallbacks(IActionsActions instance)
+        {
+            if (m_Wrapper.m_ActionsActionsCallbackInterface != null)
+            {
+                @Interact.started -= m_Wrapper.m_ActionsActionsCallbackInterface.OnInteract;
+                @Interact.performed -= m_Wrapper.m_ActionsActionsCallbackInterface.OnInteract;
+                @Interact.canceled -= m_Wrapper.m_ActionsActionsCallbackInterface.OnInteract;
+            }
+            m_Wrapper.m_ActionsActionsCallbackInterface = instance;
+            if (instance != null)
+            {
+                @Interact.started += instance.OnInteract;
+                @Interact.performed += instance.OnInteract;
+                @Interact.canceled += instance.OnInteract;
+            }
+        }
+    }
+    public ActionsActions @Actions => new ActionsActions(this);
     private int m_MouseKeyboardSchemeIndex = -1;
     public InputControlScheme MouseKeyboardScheme
     {
@@ -281,5 +345,9 @@ public partial class @FPSPlayerInputActions : IInputActionCollection2, IDisposab
         void OnLookHorizontal(InputAction.CallbackContext context);
         void OnLookVertical(InputAction.CallbackContext context);
         void OnHorizontalMovement(InputAction.CallbackContext context);
+    }
+    public interface IActionsActions
+    {
+        void OnInteract(InputAction.CallbackContext context);
     }
 }
