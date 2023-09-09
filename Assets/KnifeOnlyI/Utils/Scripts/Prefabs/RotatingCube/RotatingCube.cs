@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Prefabs.RotatingCube
+namespace KnifeOnlyI.Utils.KnifeOnlyI.Utils.Scripts.Prefabs.RotatingCube
 {
     public class RotatingCube : MonoBehaviour
     {

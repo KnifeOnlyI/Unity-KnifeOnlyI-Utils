@@ -1,8 +1,7 @@
 ﻿using System;
 using UnityEngine;
-using UnityEngine.Serialization;
 
-namespace Tests.Scripts.Prefabs.Players.FpsPlayerFreeCamera
+namespace KnifeOnlyI.Utils.Players.FpsPlayerFreeCamera
 {
     /// <summary>
     /// A component to manage an FPS Player with free camera movements/look.
