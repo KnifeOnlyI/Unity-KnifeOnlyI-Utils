@@ -12,10 +12,19 @@ namespace Tests.Scripts.Prefabs.Players.FPSPlayer
         private CharacterController characterController;
 
         [SerializeField]
-        private float defaultSpeed = 1.0f;
+        private float initialWalkSlowSpeed = 0.5f;
 
         [SerializeField]
-        private float gravity = 9.81f; // -9.81
+        private float initialWalkSpeed = 1.0f;
+
+        [SerializeField]
+        private float initialRunSpeed = 3.0f;
+
+        [SerializeField]
+        private float initialCrouchSpeed = 0.3f;
+
+        [SerializeField]
+        private float initialGravity = 9.81f;
 
         /// <summary>
         /// The input actions
@@ -23,6 +32,8 @@ namespace Tests.Scripts.Prefabs.Players.FPSPlayer
         private FPSPlayerInputActions _inputActions;
 
         private Vector2 _horizontalInput;
+
+        private float _gravity;
 
         private float _speed;
 
@@ -38,7 +49,8 @@ namespace Tests.Scripts.Prefabs.Players.FPSPlayer
 
             _inputActions.Movements.HorizontalMovement.performed += OnHorizontalMovementPerformed;
 
-            _speed = defaultSpeed;
+            _speed = initialWalkSpeed;
+            _gravity = initialGravity;
 
             _transform = transform;
 
@@ -51,6 +63,7 @@ namespace Tests.Scripts.Prefabs.Players.FPSPlayer
         public void Enable()
         {
             _inputActions.Movements.Enable();
+            _inputActions.Actions.Enable();
         }
 
         /// <summary>
@@ -59,6 +72,7 @@ namespace Tests.Scripts.Prefabs.Players.FPSPlayer
         public void Disable()
         {
             _inputActions.Movements.Disable();
+            _inputActions.Actions.Disable();
         }
 
         private void Update()
@@ -66,15 +80,72 @@ namespace Tests.Scripts.Prefabs.Players.FPSPlayer
             var horizontalVelocity =
                 (transform.right * _horizontalInput.x + _transform.forward * _horizontalInput.y) * _speed;
 
-            _verticalVelocity.y += gravity * (3.058f / 2) * Time.deltaTime;
+            _verticalVelocity.y += -_gravity * (3.058f / 2) * Time.deltaTime;
 
             characterController.Move(horizontalVelocity * Time.deltaTime);
             characterController.Move(_verticalVelocity * Time.deltaTime);
+
+            if (_inputActions.Actions.Crouch.WasPressedThisFrame())
+            {
+                OnCrouchButtonPressed();
+            }
+            else if (_inputActions.Actions.Crouch.WasReleasedThisFrame())
+            {
+                OnCrouchButtonReleased();
+            }
+
+            if (_inputActions.Actions.Run.WasPressedThisFrame())
+            {
+                OnRunButtonPressed();
+            }
+            else if (_inputActions.Actions.Run.WasReleasedThisFrame())
+            {
+                OnRunButtonReleased();
+            }
+
+            if (_inputActions.Actions.WalkSlow.WasPressedThisFrame())
+            {
+                OnWalkSlowButtonPressed();
+            }
+            else if (_inputActions.Actions.WalkSlow.WasReleasedThisFrame())
+            {
+                OnWalkSlowButtonReleased();
+            }
         }
 
         private void OnHorizontalMovementPerformed(InputAction.CallbackContext ctx)
         {
             _horizontalInput = ctx.ReadValue<Vector2>();
+        }
+
+        private void OnWalkSlowButtonPressed()
+        {
+            _speed = initialWalkSlowSpeed;
+        }
+
+        private void OnWalkSlowButtonReleased()
+        {
+            _speed = initialWalkSpeed;
+        }
+
+        private void OnRunButtonPressed()
+        {
+            _speed = initialRunSpeed;
+        }
+
+        private void OnRunButtonReleased()
+        {
+            _speed = initialWalkSpeed;
+        }
+
+        private void OnCrouchButtonPressed()
+        {
+            _speed = initialCrouchSpeed;
+        }
+
+        private void OnCrouchButtonReleased()
+        {
+            _speed = initialWalkSpeed;
         }
     }
 }

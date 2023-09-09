@@ -147,6 +147,33 @@ public partial class @FPSPlayerInputActions : IInputActionCollection2, IDisposab
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""WalkSlow"",
+                    ""type"": ""Button"",
+                    ""id"": ""65ccf92e-59dd-43a8-aaae-74805418e7f7"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Run"",
+                    ""type"": ""Button"",
+                    ""id"": ""80913719-85c4-45ea-99f8-fea80cfe75e6"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Crouch"",
+                    ""type"": ""Button"",
+                    ""id"": ""c3be5a7c-433d-4183-8cf6-5e1a43b51bc0"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -158,6 +185,39 @@ public partial class @FPSPlayerInputActions : IInputActionCollection2, IDisposab
                     ""processors"": """",
                     ""groups"": ""Mouse & Keyboard"",
                     ""action"": ""Interact"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""c4bfb0c4-95c5-47ec-84e3-e426fae2ed4e"",
+                    ""path"": ""<Keyboard>/shift"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Mouse & Keyboard"",
+                    ""action"": ""Run"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1b8ba197-d4b9-4ef6-aaea-fc0cd5cc0be9"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Mouse & Keyboard"",
+                    ""action"": ""Crouch"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e9ecab5e-99fc-4eb1-bb76-63fdaa0570a5"",
+                    ""path"": ""<Keyboard>/alt"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Mouse & Keyboard"",
+                    ""action"": ""WalkSlow"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -185,6 +245,9 @@ public partial class @FPSPlayerInputActions : IInputActionCollection2, IDisposab
         // Actions
         m_Actions = asset.FindActionMap("Actions", throwIfNotFound: true);
         m_Actions_Interact = m_Actions.FindAction("Interact", throwIfNotFound: true);
+        m_Actions_WalkSlow = m_Actions.FindAction("WalkSlow", throwIfNotFound: true);
+        m_Actions_Run = m_Actions.FindAction("Run", throwIfNotFound: true);
+        m_Actions_Crouch = m_Actions.FindAction("Crouch", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -294,11 +357,17 @@ public partial class @FPSPlayerInputActions : IInputActionCollection2, IDisposab
     private readonly InputActionMap m_Actions;
     private IActionsActions m_ActionsActionsCallbackInterface;
     private readonly InputAction m_Actions_Interact;
+    private readonly InputAction m_Actions_WalkSlow;
+    private readonly InputAction m_Actions_Run;
+    private readonly InputAction m_Actions_Crouch;
     public struct ActionsActions
     {
         private @FPSPlayerInputActions m_Wrapper;
         public ActionsActions(@FPSPlayerInputActions wrapper) { m_Wrapper = wrapper; }
         public InputAction @Interact => m_Wrapper.m_Actions_Interact;
+        public InputAction @WalkSlow => m_Wrapper.m_Actions_WalkSlow;
+        public InputAction @Run => m_Wrapper.m_Actions_Run;
+        public InputAction @Crouch => m_Wrapper.m_Actions_Crouch;
         public InputActionMap Get() { return m_Wrapper.m_Actions; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -311,6 +380,15 @@ public partial class @FPSPlayerInputActions : IInputActionCollection2, IDisposab
                 @Interact.started -= m_Wrapper.m_ActionsActionsCallbackInterface.OnInteract;
                 @Interact.performed -= m_Wrapper.m_ActionsActionsCallbackInterface.OnInteract;
                 @Interact.canceled -= m_Wrapper.m_ActionsActionsCallbackInterface.OnInteract;
+                @WalkSlow.started -= m_Wrapper.m_ActionsActionsCallbackInterface.OnWalkSlow;
+                @WalkSlow.performed -= m_Wrapper.m_ActionsActionsCallbackInterface.OnWalkSlow;
+                @WalkSlow.canceled -= m_Wrapper.m_ActionsActionsCallbackInterface.OnWalkSlow;
+                @Run.started -= m_Wrapper.m_ActionsActionsCallbackInterface.OnRun;
+                @Run.performed -= m_Wrapper.m_ActionsActionsCallbackInterface.OnRun;
+                @Run.canceled -= m_Wrapper.m_ActionsActionsCallbackInterface.OnRun;
+                @Crouch.started -= m_Wrapper.m_ActionsActionsCallbackInterface.OnCrouch;
+                @Crouch.performed -= m_Wrapper.m_ActionsActionsCallbackInterface.OnCrouch;
+                @Crouch.canceled -= m_Wrapper.m_ActionsActionsCallbackInterface.OnCrouch;
             }
             m_Wrapper.m_ActionsActionsCallbackInterface = instance;
             if (instance != null)
@@ -318,6 +396,15 @@ public partial class @FPSPlayerInputActions : IInputActionCollection2, IDisposab
                 @Interact.started += instance.OnInteract;
                 @Interact.performed += instance.OnInteract;
                 @Interact.canceled += instance.OnInteract;
+                @WalkSlow.started += instance.OnWalkSlow;
+                @WalkSlow.performed += instance.OnWalkSlow;
+                @WalkSlow.canceled += instance.OnWalkSlow;
+                @Run.started += instance.OnRun;
+                @Run.performed += instance.OnRun;
+                @Run.canceled += instance.OnRun;
+                @Crouch.started += instance.OnCrouch;
+                @Crouch.performed += instance.OnCrouch;
+                @Crouch.canceled += instance.OnCrouch;
             }
         }
     }
@@ -349,5 +436,8 @@ public partial class @FPSPlayerInputActions : IInputActionCollection2, IDisposab
     public interface IActionsActions
     {
         void OnInteract(InputAction.CallbackContext context);
+        void OnWalkSlow(InputAction.CallbackContext context);
+        void OnRun(InputAction.CallbackContext context);
+        void OnCrouch(InputAction.CallbackContext context);
     }
 }
