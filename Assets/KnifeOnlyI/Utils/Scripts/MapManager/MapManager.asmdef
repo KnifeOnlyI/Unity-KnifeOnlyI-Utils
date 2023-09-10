@@ -1,0 +1,14 @@
+{
+    "name": "MapManager",
+    "rootNamespace": "KnifeOnlyI.Utils.MapManager",
+    "references": [],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
