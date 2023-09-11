@@ -1,10 +1,7 @@
 {
-    "name": "MapManager",
-    "rootNamespace": "KnifeOnlyI.Utils.MapManager",
-    "references": [
-        "GUID:85a5ce46e9f85b64a9354975b141c95b",
-        "GUID:f049b14c2d700a242988b7d922234d97"
-    ],
+    "name": "Random",
+    "rootNamespace": "KnifeOnlyI.Utilis.Random",
+    "references": [],
     "includePlatforms": [],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
